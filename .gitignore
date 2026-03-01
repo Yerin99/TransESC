@@ -1,0 +1,39 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Model checkpoints
+blender_strategy*/
+blenderbot_small-90M/
+blender-small/
+leaky_checkpoints/
+
+# Dataset (large files - download separately)
+dataset/*.pkl
+dataset/*.json
+dataset/*WithStrategy*.tsv
+dataset/8_1_1_backup/
+leaky_data/
+
+# Cached preprocessed data
+cached/
+
+# Archives
+*.zip
+*.pkl
+
+# Logs
+train_log*.txt
+eval_log.txt
+
+# Papers / docs (not code)
+*.pdf
+paper_text.txt
+
+# Generated outputs
+generated_data/
+esconv_raw/
+
+# OS / IDE
+.DS_Store
+.idea/
