@@ -23,8 +23,7 @@ cached/
 *.pkl
 
 # Logs
-train_log*.txt
-eval_log.txt
+logs/
 
 # Papers / docs (not code)
 *.pdf
