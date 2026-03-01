@@ -1516,13 +1516,13 @@ class Transition_Interact(nn.Module):
         
         sem_trans = []
         for item, idx in zip(outputs, semantics_index):
-            sem_cls_emb = torch.index_select(item, 0, torch.tensor(idx, device='cuda'))
+            sem_cls_emb = torch.index_select(item, 0, torch.tensor(idx, device=item.device))
             sem_trans.append(sem_cls_emb)
         sem_trans = pad_sequence(sem_trans, batch_first=True, padding_value=0)
         
         stra_trans_states = []
         for item, idx in zip(outputs, semantics_index):
-            str_cls_emb = torch.index_select(item, 0, torch.tensor(idx, device='cuda')+1)
+            str_cls_emb = torch.index_select(item, 0, torch.tensor(idx, device=item.device)+1)
             stra_trans_states.append(str_cls_emb)
         stra_trans_states = pad_sequence(stra_trans_states, batch_first=True, padding_value=0)
 
@@ -1533,7 +1533,7 @@ class Transition_Interact(nn.Module):
         
         emo_trans_states = []
         for item, idx in zip(outputs, semantics_index):
-            emo_cls_emb = torch.index_select(item, 0, torch.tensor(idx, device='cuda')+2)
+            emo_cls_emb = torch.index_select(item, 0, torch.tensor(idx, device=item.device)+2)
             emo_trans_states.append(emo_cls_emb)
         emo_trans_states = pad_sequence(emo_trans_states, batch_first=True, padding_value=0) 
         

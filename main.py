@@ -661,7 +661,7 @@ def train(args, train_dataset, model: PreTrainedModel, tokenizer: PreTrainedToke
     
     train_sampler = RandomSampler(train_dataset) if args.local_rank == -1 else DistributedSampler(train_dataset)
     train_dataloader = DataLoader(
-        train_dataset, batch_size=args.train_batch_size, collate_fn=ESDDataset.collate, shuffle=True, drop_last = False
+        train_dataset, sampler=train_sampler, batch_size=args.train_batch_size, collate_fn=ESDDataset.collate, drop_last = False
     )
 
     if args.max_steps > 0:
@@ -982,12 +982,12 @@ def evaluate(args, model: PreTrainedModel, tokenizer: PreTrainedTokenizer, eval_
             lm_loss = outputs.lm_loss
             strategy_loss = outputs.strategy_loss
             emotion_loss = outputs.emotion_loss
-            num_samples.append((decoder_label_ids.cpu().numpy() != -100).astype(np.int).sum())
-            eval_loss += lm_loss.sum().item() * (decoder_label_ids.cpu().numpy() != -100).astype(np.int).sum()
+            num_samples.append((decoder_label_ids.cpu().numpy() != -100).astype(int).sum())
+            eval_loss += lm_loss.sum().item() * (decoder_label_ids.cpu().numpy() != -100).astype(int).sum()
             if strategy_logits is not None:
-                eval_strategy_loss += strategy_loss.sum().item() * (strategy_labels.cpu().numpy() != 8).astype(np.int).sum()
+                eval_strategy_loss += strategy_loss.sum().item() * (strategy_labels.cpu().numpy() != 8).astype(int).sum()
             if emotion_logits is not None:
-                eval_emotion_loss += emotion_loss.sum().item() * (trans_emotion_labels.cpu().numpy() != 8).astype(np.int).sum()
+                eval_emotion_loss += emotion_loss.sum().item() * (trans_emotion_labels.cpu().numpy() != 8).astype(int).sum()
 
         nb_eval_steps += 1
     
